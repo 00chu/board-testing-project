@@ -81,18 +81,21 @@ class PostServiceMockitoTest {
     @Test
     // Repository의 삭제 메서드를 올바르게 호출했는지를 검증
     void shouldCallRepositoryDelete() {
+
         // Given
         Long id = 1L;
 
-        when(repository.existsById(id))
-                .thenReturn(true);
+        Post post = new Post("제목", "내용", "지우");
+
+        when(repository.findById(id))
+                .thenReturn(Optional.of(post));
 
         // When
         service.delete(id);
 
         // Then
-        verify(repository).existsById(id);
-        verify(repository).deleteById(id);
+        verify(repository).findById(id);
+        verify(repository).delete(post);
     }
 
     @Test
